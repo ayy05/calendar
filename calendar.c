@@ -65,7 +65,7 @@ void print_calendar(int year) {
 }
 
 void leap_year(int year) {
-    if (year % 4 == 0 && (year % 100 != 0 || year % 400))
+    if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
             days_in_month[1]++;
 }
 
