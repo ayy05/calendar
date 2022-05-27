@@ -37,11 +37,11 @@ int main(int argc, char *argv[]) {
 
 void print_calendar(int year, int columns) {
     enum months month = JAN;
+    enum days num_days[NUM_MONTHS];
     int i, j, k, max_days, last_start, rows;
-    int days[NUM_MONTHS];
 
     for (i = 0; i <= DEC; i++) 
-        days[i] = get_first_day(year, i);
+        num_days[i] = get_first_day(year, i);
     
     printf("\n%*d\n", (22 * columns) / 2, year);
 
@@ -53,7 +53,7 @@ void print_calendar(int year, int columns) {
 
         last_start = month;
         for (i = 0; i < columns; i++) {
-            if (days[month + i] > days[last_start] || (days[month + i] >= days[last_start] && month + i - 1 == FEB))
+            if (num_days[month + i] > num_days[last_start] || (num_days[month + i] >= num_days[last_start] && month + i - 1 == FEB))
                 last_start = month + i;
         }
 
@@ -71,28 +71,28 @@ void print_calendar(int year, int columns) {
         printf("\n");
 
         for (i = 0; i < columns; i++) {
-            for (j = 0; j < days[month + i]; j++)
+            for (j = 0; j < num_days[month + i]; j++)
                 printf("   ");
 
             k = 1;
-            for (j = days[month + i]; j < 7; j++)
+            for (j = num_days[month + i]; j < 7; j++)
                 printf("%2d ", k++);
             
-            days[month + i] = k;
+            num_days[month + i] = k;
 
             printf(" ");
         }
 
         printf("\n");
 
-        while (days[last_start] <= days_in_month[last_start]) {
+        while (num_days[last_start] <= days_in_month[last_start]) {
             for (i = 0; i < columns; i++) {
                 max_days = days_in_month[month + i];
 
-                if (days[month + i] != 0) {
+                if (num_days[month + i] != 0) {
                     for (j = 0; j < 7; j++) {
-                        if (days[month + i] <= max_days)
-                            printf("%2d ", days[month + i]++);
+                        if (num_days[month + i] <= max_days)
+                            printf("%2d ", num_days[month + i]++);
                         else
                             printf("   ");
                     }
