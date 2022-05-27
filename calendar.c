@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     if (argc == 3) {
         int year = strtol(argv[1], NULL, 10);
         int columns = strtol(argv[2], NULL, 10);
+
         if (columns <= 0) {
             printf("Enter valid column number.\n");
             return 1;
@@ -30,28 +31,25 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    printf("Needs 2 argument: year, columns\n");
+    printf("Needs 2 arguments: year, columns\n");
     return 1;
 }
 
 void print_calendar(int year, int columns) {
     enum months month = JAN;
-    int i, j, k, max_days, last_start = 0, rows;
+    int i, j, k, max_days, last_start, rows;
     int days[NUM_MONTHS];
 
-    /* Zeller's congruence */
-    for (i = 0; i <= DEC; i++) {
+    for (i = 0; i <= DEC; i++) 
         days[i] = get_first_day(year, i);
-    }
-
+    
     printf("\n%*d\n", (22 * columns) / 2, year);
 
     rows = (int) ((12.0 / columns) + 0.9);
 
     while (rows--) {
-        if (month + columns > NUM_MONTHS) {
+        if (month + columns > NUM_MONTHS)
             columns = NUM_MONTHS - month;
-        }
 
         last_start = month;
         for (i = 0; i < columns; i++) {
@@ -67,21 +65,19 @@ void print_calendar(int year, int columns) {
 
         printf("\n");
 
-        for (i = 0; i < columns; i++) {
+        for (i = 0; i < columns; i++) 
             printf("%-22s", "Su Mo Tu We Th Fr Sa");
-        }
 
         printf("\n");
 
         for (i = 0; i < columns; i++) {
-            for (k = 0; k < days[month + i]; k++)
+            for (j = 0; j < days[month + i]; j++)
                 printf("   ");
 
             k = 1;
-            j = days[month + i];
-            while (j++ < 7) {
+            for (j = days[month + i]; j < 7; j++)
                 printf("%2d ", k++);
-            }
+            
             days[month + i] = k;
 
             printf(" ");
@@ -94,13 +90,12 @@ void print_calendar(int year, int columns) {
                 max_days = days_in_month[month + i];
 
                 if (days[month + i] != 0) {
-                    j = 0;
-
-                    while (j++ < 7)
+                    for (j = 0; j < 7; j++) {
                         if (days[month + i] <= max_days)
                             printf("%2d ", days[month + i]++);
                         else
                             printf("   ");
+                    }
 
                     printf(" ");
                 }
@@ -124,7 +119,8 @@ int get_first_day(int year, int month) {
         month += NUM_MONTHS;
         year--;
     }
-
+    
+    /* Zeller's congruence */
     return ((26 * month - 2) / 10 + 1 + (year % 100) + ((year % 100) / 4) + ((year / 100) / 4) +
             (5 * (year / 100))) % 7;
 }
