@@ -19,6 +19,10 @@ int main(int argc, char *argv[]) {
     if (argc == 3) {
         int year = strtol(argv[1], NULL, 10);
         int columns = strtol(argv[2], NULL, 10);
+        if(columns <= 0) {
+          printf("Enter valid column number.\n");
+          return 1;
+        }
 
         leap_year(year);
         print_calendar(year, columns);
@@ -49,9 +53,9 @@ void print_calendar(int year, int columns) {
             columns = NUM_MONTHS - month;
         }
 
-        last_start = -1;
+        last_start = month;
         for (k = 0; k < columns; k++) {
-            if (f_days[month + k] > last_start)
+            if (f_days[month + k] > f_days[last_start])
                 last_start = month + k;
         }
 
@@ -119,6 +123,5 @@ int get_first_day(int year, int month) {
     }
 
     return ((26 * month - 2) / 10 + 1 + (year % 100) + ((year % 100) / 4) + ((year / 100) / 4) +
-            (5 * (year / 100))) %
-           7;
+            (5 * (year / 100))) % 7;
 }
