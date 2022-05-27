@@ -36,9 +36,9 @@ int main(int argc, char *argv[]) {
 }
 
 void print_calendar(int year, int columns) {
-    enum months month = JAN;
+    enum months month = JAN, last_start;
     enum days num_days[NUM_MONTHS];
-    int i, j, k, max_days, last_start, rows;
+    int i, j, k, rows;
 
     for (i = 0; i <= DEC; i++) 
         num_days[i] = get_first_day(year, i);
@@ -87,11 +87,9 @@ void print_calendar(int year, int columns) {
 
         while (num_days[last_start] <= days_in_month[last_start]) {
             for (i = 0; i < columns; i++) {
-                max_days = days_in_month[month + i];
-
                 if (num_days[month + i] != 0) {
                     for (j = 0; j < 7; j++) {
-                        if (num_days[month + i] <= max_days)
+                        if (num_days[month + i] <= days_in_month[month + i])
                             printf("%2d ", num_days[month + i]++);
                         else
                             printf("   ");
