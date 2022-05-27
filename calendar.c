@@ -60,7 +60,9 @@ void print_calendar(int year, int columns) {
         }
 
         for (i = 0; i < columns; i++) {
-            printf("%-22s", month_name[month + i]);
+            printf("%*s%s", (20 - (int)strlen(month_name[month + i]))/2, " ", month_name[month + i]);
+            printf("  ");
+            printf("%*s", 20 - (20 - (int)strlen(month_name[month + i]))/2 - (int)strlen(month_name[month + i]), " ");
         }
 
         printf("\n");
@@ -87,7 +89,7 @@ void print_calendar(int year, int columns) {
 
         printf("\n");
 
-        while (c_days[last_start] < days_in_month[last_start]) {
+        while (c_days[last_start] <= days_in_month[last_start]) {
             for (i = 0; i < columns; i++) {
                 max_days = days_in_month[month + i];
 
