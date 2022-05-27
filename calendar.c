@@ -55,7 +55,7 @@ void print_calendar(int year, int columns) {
 
         last_start = month;
         for (i = 0; i < columns; i++) {
-            if (days[month + i] > days[last_start])
+            if (days[month + i] > days[last_start] || (days[month + i] >= days[last_start] && month + i - 1 == FEB))
                 last_start = month + i;
         }
 
