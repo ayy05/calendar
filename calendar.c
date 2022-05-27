@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
         int year = strtol(argv[1], NULL, 10);
         int columns = strtol(argv[2], NULL, 10);
 
-        if (columns <= 0) {
+        if (columns <= 0 || columns > 12) {
             printf("Enter valid column number.\n");
             return 1;
         }
