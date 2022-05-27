@@ -19,9 +19,9 @@ int main(int argc, char *argv[]) {
     if (argc == 3) {
         int year = strtol(argv[1], NULL, 10);
         int columns = strtol(argv[2], NULL, 10);
-        if(columns <= 0) {
-          printf("Enter valid column number.\n");
-          return 1;
+        if (columns <= 0) {
+            printf("Enter valid column number.\n");
+            return 1;
         }
 
         leap_year(year);
@@ -54,33 +54,33 @@ void print_calendar(int year, int columns) {
         }
 
         last_start = month;
-        for (k = 0; k < columns; k++) {
-            if (f_days[month + k] > f_days[last_start])
-                last_start = month + k;
+        for (i = 0; i < columns; i++) {
+            if (f_days[month + i] > f_days[last_start])
+                last_start = month + i;
         }
 
-        for (k = 0; k < columns; k++) {
-            printf("%-22s", month_name[month + k]);
+        for (i = 0; i < columns; i++) {
+            printf("%-22s", month_name[month + i]);
         }
 
         printf("\n");
 
-        for (k = 0; k < columns; k++) {
+        for (i = 0; i < columns; i++) {
             printf("%-22s", "Su Mo Tu We Th Fr Sa");
         }
 
         printf("\n");
 
-        for (k = 0; k < columns; k++) {
-            for (i = 0; i < f_days[month + k]; i++)
+        for (i = 0; i < columns; i++) {
+            for (k = 0; k < f_days[month + i]; k++)
                 printf("   ");
 
-            i = 1;
-            j = f_days[month + k];
+            k = 1;
+            j = f_days[month + i];
             while (j++ < 7) {
-                printf("%2d ", i++);
+                printf("%2d ", k++);
             }
-            c_days[month + k] = i;
+            c_days[month + i] = k;
 
             printf(" ");
         }
@@ -88,15 +88,15 @@ void print_calendar(int year, int columns) {
         printf("\n");
 
         while (c_days[last_start] < days_in_month[last_start]) {
-            for (k = 0; k < columns; k++) {
-                max_days = days_in_month[month + k];
+            for (i = 0; i < columns; i++) {
+                max_days = days_in_month[month + i];
 
-                if (c_days[month + k] != 0) {
+                if (c_days[month + i] != 0) {
                     j = 0;
 
                     while (j++ < 7)
-                        if (c_days[month + k] <= max_days)
-                            printf("%2d ", c_days[month + k]++);
+                        if (c_days[month + i] <= max_days)
+                            printf("%2d ", c_days[month + i]++);
                         else
                             printf("   ");
 
@@ -123,5 +123,6 @@ int get_first_day(int year, int month) {
     }
 
     return ((26 * month - 2) / 10 + 1 + (year % 100) + ((year % 100) / 4) + ((year / 100) / 4) +
-            (5 * (year / 100))) % 7;
+            (5 * (year / 100))) %
+           7;
 }
