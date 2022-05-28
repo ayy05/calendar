@@ -4,12 +4,64 @@
 #include <string.h>
 
 #define NUM_MONTHS 12
+#define DAYS_PER_WEEK 7
+#define EMPTY 0
 
 enum days { SUN, MON, TUE, WED, THUR, FRI, SAT };
 enum months { JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
 int days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-const char *month_name[] = {"January", "February", "March",     "April",   "May",      "June",
-                            "July",    "August",   "September", "October", "November", "December"};
+
+const char *days[] = {
+"   ",
+"  1",
+"  2",
+"  3",
+"  4",
+"  5",
+"  6",
+"  7",
+"  8",
+"  9",
+" 10",
+" 11",
+" 12",
+" 13",
+" 14",
+" 15",
+" 16",
+" 17",
+" 18",
+" 19",
+" 20",
+" 21",
+" 22",
+" 23",
+" 24",
+" 25",
+" 26",
+" 27",
+" 28",
+" 29",
+" 30",
+" 31"
+};
+
+const char *month_name[] = {
+"      January       ", 
+"      February      ", 
+"       March        ",     
+"       April        ",
+"        May         ",
+"        June        ",
+"        July        ",
+"       August       ",
+"     September      ",
+"      October       ",
+"      November      ",
+"      December      "
+};
+
+const char *week_day = "Su Mo Tu We Th Fr Sa";
 
 void print_calendar(int year, int columns);
 void leap_year(int year);
@@ -51,52 +103,51 @@ void print_calendar(int year, int columns) {
         if (month + columns > NUM_MONTHS)
             columns = NUM_MONTHS - month;
 
+        /* calculate the month that starts on the latest weekday, determines when the last week needed to print is */
         last_start = month;
         for (i = 0; i < columns; i++) {
             if (num_days[month + i] > num_days[last_start] || (num_days[month + i] >= num_days[last_start] && month + i - 1 == FEB))
                 last_start = month + i;
         }
 
-        for (i = 0; i < columns; i++) {
-            printf("%*s%s", (20 - (int) strlen(month_name[month + i])) / 2, " ", month_name[month + i]);
-            printf("  ");
-            printf("%*s", 20 - (20 - (int) strlen(month_name[month + i])) / 2 - (int) strlen(month_name[month + i]), " ");
-        }
+        /* print month */
+        for (i = 0; i < columns; i++)
+            printf("%s  ", month_name[month + i]);
 
         printf("\n");
 
-        for (i = 0; i < columns; i++) 
-            printf("%-22s", "Su Mo Tu We Th Fr Sa");
+        /* print day of week */
+        for (i = 0; i < columns; i++)
+            printf(" %s ", week_day);
 
         printf("\n");
 
+        /* print first week */
         for (i = 0; i < columns; i++) {
             for (j = 0; j < num_days[month + i]; j++)
-                printf("   ");
+                printf("%s", days[EMPTY]);
 
             k = 1;
-            for (j = num_days[month + i]; j < 7; j++)
-                printf("%2d ", k++);
+            for (j = num_days[month + i]; j < DAYS_PER_WEEK; j++)
+                printf("%s", days[k++]);
             
             num_days[month + i] = k;
-
             printf(" ");
         }
 
         printf("\n");
 
+        /* print rest of weeks */
         while (num_days[last_start] <= days_in_month[last_start]) {
             for (i = 0; i < columns; i++) {
-                if (num_days[month + i] != 0) {
-                    for (j = 0; j < 7; j++) {
-                        if (num_days[month + i] <= days_in_month[month + i])
-                            printf("%2d ", num_days[month + i]++);
-                        else
-                            printf("   ");
-                    }
-
-                    printf(" ");
+                for (j = 0; j < DAYS_PER_WEEK; j++) {
+                    if (num_days[month + i] <= days_in_month[month + i]) {
+                        printf("%s", days[num_days[month + i]++]);
+                    } else
+                        printf("%s", days[EMPTY]);
                 }
+
+                printf(" ");
             }
             
             printf("\n");
@@ -120,5 +171,5 @@ int get_first_day(int year, int month) {
     
     /* Zeller's congruence */
     return ((26 * month - 2) / 10 + 1 + (year % 100) + ((year % 100) / 4) + ((year / 100) / 4) +
-            (5 * (year / 100))) % 7;
+            (5 * (year / 100))) % DAYS_PER_WEEK;
 }
