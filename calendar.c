@@ -43,7 +43,7 @@ void print_calendar(int year, int columns) {
     for (i = 0; i <= DEC; i++) 
         num_days[i] = get_first_day(year, i);
     
-    printf("\n%*d\n", (22 * columns) / 2, year);
+    printf("\n%*d\n", (22 * columns - 2) / 2, year);
 
     rows = (int) ((12.0 / columns) + 0.9);
 
