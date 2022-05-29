@@ -103,26 +103,26 @@ void print_calendar(int year, int columns) {
         if (month + columns > NUM_MONTHS)
             columns = NUM_MONTHS - month;
 
-        /* calculate the month that starts on the latest weekday, determines when the last week needed to print is */
+        /* Calculates the month that starts on the latest weekday, determines when the last week needed to print is. */
         last_start = month;
         for (i = 0; i < columns; i++) {
             if (num_days[month + i] > num_days[last_start] || (num_days[month + i] >= num_days[last_start] && month + i - 1 == FEB))
                 last_start = month + i;
         }
 
-        /* print month */
+        /* Prints month. */
         for (i = 0; i < columns; i++)
             printf("%s  ", month_name[month + i]);
 
         printf("\n");
 
-        /* print day of week */
+        /* Prints the days of week header. */
         for (i = 0; i < columns; i++)
             printf(" %s ", week_day);
 
         printf("\n");
 
-        /* print first week */
+        /* Prints the first week. */
         for (i = 0; i < columns; i++) {
             for (j = 0; j < num_days[month + i]; j++)
                 printf("%s", days[EMPTY]);
@@ -137,7 +137,7 @@ void print_calendar(int year, int columns) {
 
         printf("\n");
 
-        /* print rest of weeks */
+        /* Prints the rest of the weeks. */
         while (num_days[last_start] <= days_in_month[last_start]) {
             for (i = 0; i < columns; i++) {
                 for (j = 0; j < DAYS_PER_WEEK; j++) {
